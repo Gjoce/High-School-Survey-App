@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>+ Ustvari</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/pregled_seje.css" />
+  </head>
+  <body>
+    <button class="btn btn-dark small-btn" onclick="location.href='Naziv.html'">
+      + Ustvari
+    </button>
+    <div class="table-container">
+      <div class="table-head-container">
+        <table class="table mb-0">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Ime seje</th>
+              <th scope="col">Datum</th>
+              <th scope="col">Akcija</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="table-body-container">
+        <table class="table">
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+    <script src="../Javascript/Admin/pregled_seje.js"></script>
+  </body>
+</html>

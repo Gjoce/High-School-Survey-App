@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kreiraj sejo</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/naziv.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title text-center text-secondary">Ustvari Sejo!</h2>
+            <form id="seja-form">
+              <div class="form-group">
+                <label for="naziv">Naziv:</label>
+                <input
+                  type="text"
+                  id="naziv"
+                  name="naziv"
+                  class="form-control"
+                  placeholder="Vnesite naziv"
+                />
+              </div>
+              <div class="form-group">
+                <label for="json-file">JSON file:</label>
+                <input
+                  type="file"
+                  id="json-file"
+                  name="json-file"
+                  accept=".json"
+                  class="form-control-file"
+                />
+              </div>
+              <button
+                type="button"
+                class="btn btn-dark btn-block"
+                id="submit-button"
+              >
+                Ustvari sejo
+              </button>
+              <button
+                type="button"
+                class="btn btn-dark btn-block btn-back"
+                onclick="location.href='Pregled_Seje.html'"
+              >
+                Nazaj
+              </button>
+            </form>
+            <div
+              id="message-container"
+              class="alert mt-3"
+              role="alert"
+              style="display: none"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="../Javascript/Admin/naziv.js"></script>
+  </body>
+</html>

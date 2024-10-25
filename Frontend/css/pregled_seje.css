@@ -1,0 +1,61 @@
+body {
+    background-image: url("../Slike/index_fluid.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.small-btn {
+    padding: 10px 5px;
+    font-size: 14px;
+    border-radius: 5px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+.small-btn:hover {
+    background-color: #bd6ecb;
+}
+.table-container {
+    max-width: 600px;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.9);
+    text-align: center; /* Center the table */
+}
+.thead-dark {
+    background-color: #343a40;
+}
+.thead-dark th {
+    background-color: #343a40;
+    color: white;
+}
+.table-container .table-head-container {
+    padding: 15px;
+    background-color: #343a40;
+    border-radius: 10px 10px 0 0;
+}
+.table-container .table-body-container {
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 0 0 10px 10px;
+}
+.table th, .table td {
+    border-top: none;
+}
+table {
+    margin: 0 auto; /* Center the table horizontally */
+}
+.delete-btn {
+    padding: 5px 10px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

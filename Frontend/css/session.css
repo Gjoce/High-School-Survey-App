@@ -1,0 +1,70 @@
+body {
+    background-image: url("../Slike/index_fluid.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+    position: relative;
+}
+.red-button {
+    background-color: #dc3545; /* Bootstrap danger red color */
+    color: white;
+}
+
+
+
+.title-and-buttons {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    color: white; 
+}
+
+.small-btn {
+    margin-top: 10px;
+}
+
+.small-btn:hover {
+    background-color: #bd6ecb;
+}
+
+.date {
+    color: white;
+    margin-top: 10px;
+}
+
+.table-container {
+    max-width: 600px;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    margin-top: 150px;
+}
+
+.table th,.table td {
+    border-top: none;
+}
+#qrcode-container {
+    text-align: center;
+    margin-top: 30px;
+}
+.table-responsive {
+    max-height: 95vh; /* Adjust this value as per your design needs */
+    overflow-y: auto;
+}
+.table-container {
+    margin-top: 0%;
+    max-width: 130vh;
+}

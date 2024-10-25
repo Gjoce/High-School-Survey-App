@@ -1,0 +1,6 @@
+body {
+    background-image: url("../Slike/index_fluid.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}

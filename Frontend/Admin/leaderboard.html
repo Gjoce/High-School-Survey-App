@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaderboard</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/cssVprasanja.css" />
+  </head>
+  <body style="padding: 5%">
+    <div class="title">Kviz</div>
+    <div class="leaderboard">
+      <h2 class="leaderboard-header">Lestvica</h2>
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Vzdevek</th>
+            <th>Število točk</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body">
+          <!-- Leaderboard rows will be dynamically inserted here -->
+        </tbody>
+      </table>
+    </div>
+    <script src="../Javascript//Admin/leaderboard.js"></script>
+  </body>
+</html>
