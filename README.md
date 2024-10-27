@@ -117,7 +117,7 @@ Project Structure
 
 1. **Clone the Repository**:
     ```bash
-    git clone https://github.com/yourusername/High-School-Survey-App.git
+    git clone https://github.com/Gjoce/High-School-Survey-App.git
     cd High-School-Survey-App
     cd backend
     ```
