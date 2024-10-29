@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const token = sessionStorage.getItem("jwt"); // Assuming you store the token in sessionStorage
+  const token = sessionStorage.getItem("jwt");
 
   if (!token) {
     console.error("Token ni bil najden v sessionStorage.");
@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
   fetch(`http://localhost:3307/api/sessions/admin`, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${token}`, // Include the JWT token
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
   })
@@ -21,9 +21,8 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .then((seje) => {
       const tbody = document.getElementById("tbody");
-      tbody.innerHTML = ""; // Clear existing rows
+      tbody.innerHTML = "";
 
-      // Populate the table
       seje.forEach((seja) => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
@@ -55,7 +54,7 @@ function deleteSeja(id, button) {
   fetch(`http://localhost:3307/api/sessions/${id}`, {
     method: "DELETE",
     headers: {
-      Authorization: `Bearer ${token}`, // Include the JWT token
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
   })

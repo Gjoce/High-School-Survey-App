@@ -11,8 +11,7 @@ const getSessionById = async (req, res) => {
   try {
     const seja = await db("seja").where("id", id).first();
     if (!seja) {
-      console.log("Session not found:", id);
-      return res.status(404).json({ message: "Session not found" });
+      return res.status(404).json({ message: "Seja ni bila najdena" });
     }
 
     const sklopi = await db("sklop").where("seja_id", id);
@@ -34,8 +33,8 @@ const getSessionById = async (req, res) => {
 
     res.json(response);
   } catch (error) {
-    console.error("Error fetching session:", error);
-    res.status(500).json({ message: "Error fetching session" });
+    console.error("Napaka pri sprejemanju seje:", error);
+    res.status(500).json({ message: "Napaka pri sprejemanju seje" });
   }
 };
 
@@ -57,7 +56,7 @@ const createSession = async (req, res) => {
       sejaID = insertedSeja[0];
 
       if (!sejaID) {
-        throw new Error("Failed to retrieve the session ID.");
+        throw new Error("Napaka pri sprejemanju seje ID.");
       }
 
       for (const sklop of vnos) {
@@ -86,7 +85,6 @@ const createSession = async (req, res) => {
       }
     });
 
-    // Decode the current JWT and append new session
     const currentToken = req.headers.authorization.split(" ")[1];
     const decoded = jwt.verify(currentToken, process.env.JWT_SECRET);
     const updatedSessionData = {
@@ -94,39 +92,35 @@ const createSession = async (req, res) => {
       sessions: [...(decoded.sessions || []), sejaID],
     };
 
-    // Sign a new token without changing 'exp'
     const newToken = jwt.sign(updatedSessionData, process.env.JWT_SECRET);
 
     res
       .status(201)
-      .json({ message: "Session created successfully", token: newToken });
+      .json({ message: "Seja je uspesno kreirana", token: newToken });
   } catch (error) {
-    console.error("Error inserting data:", error.message);
+    console.error("Napaka pri vnosu podatkov:", error.message);
     res
       .status(500)
-      .json({ message: "Error inserting data", error: error.message });
+      .json({ message: "Napaka pri vnosu podatkov", error: error.message });
   }
 };
 
 const getSessionsByAdmin = async (req, res) => {
   try {
-    console.log("Admin ID:", req.userId);
     const sessions = await db("seja").select("*").where("admin_id", req.userId);
     res.json(sessions);
   } catch (error) {
-    console.error("Error fetching sessions:", error);
+    console.error("Napaka pri sprejemanju sej:", error);
     res.status(500).json({ message: "Napaka pri sprejemanju sej." });
   }
 };
 
-// Delete session by ID
 const deleteSession = async (req, res) => {
   const { id } = req.params;
 
-  // Check if the session belongs to the user attempting to delete it
   const session = await db("seja").where("id", id).first();
   if (!session) {
-    return res.status(404).json({ message: "Session not found." });
+    return res.status(404).json({ message: "Seja ni bila najdena." });
   }
 
   if (session.admin_id !== req.userId) {
@@ -135,10 +129,10 @@ const deleteSession = async (req, res) => {
 
   try {
     await db("seja").where("id", id).del();
-    res.status(200).json({ message: "Session deleted successfully" });
+    res.status(200).json({ message: "Seja je uspešno izbrisana" });
   } catch (error) {
-    console.error("Error deleting session:", error);
-    res.status(500).json({ message: "Error deleting session" });
+    console.error("Napaka pri brisanju seje:", error);
+    res.status(500).json({ message: "Napaka pri brisanju seje" });
   }
 };
 
@@ -172,10 +166,8 @@ const textAreaAnswers = async (req, res) => {
 
     res.json(response);
   } catch (error) {
-    console.error("Error fetching text-area answers:", error);
-    res
-      .status(500)
-      .json({ error: "An error occurred while fetching the data." });
+    console.error("Napaka pri prejemu text vprasanji:", error);
+    res.status(500).json({ error: "Napaka pri prejemu podatkov." });
   }
 };
 
@@ -236,15 +228,18 @@ const getQuestionStatistics = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Error fetching statistics", error: error.message });
+      .json({
+        message: "Napaka pri prevzemu statistike",
+        error: error.message,
+      });
   }
 };
 
 const getQuestionsForSessionId = async (req, res) => {
-  const { id } = req.params; // 'id' instead of 'sklopId'
+  const { id } = req.params;
 
   try {
-    const questions = await db("vprasanja").where("sklop_id", id); // Use 'id' here
+    const questions = await db("vprasanja").where("sklop_id", id);
     res.json(questions);
   } catch (error) {
     console.error("Napaka pri prevzemu vprasanj:", error);

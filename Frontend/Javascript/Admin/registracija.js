@@ -19,7 +19,7 @@ document
       });
 
       if (response.ok) {
-        window.location.href = "./Prijava.html"; //redirect na stran za prijavo
+        window.location.href = "./Prijava.html";
       } else {
         const data = await response.json();
         if (response.status === 500 && data.message.includes("duplicate")) {

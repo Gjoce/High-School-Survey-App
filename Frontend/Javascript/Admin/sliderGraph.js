@@ -1,4 +1,3 @@
-// JavaScript code for fetching and updating average slider value
 function getQueryParams() {
   const params = new URLSearchParams(window.location.search);
   return {
@@ -37,7 +36,6 @@ async function fetchAverage() {
       "averageDisplay"
     ).textContent = `Povprečje: ${average}`;
 
-    // Update slider position based on the average value
     const sliderInput = document.getElementById("sliderInput");
     sliderInput.value = Math.round(average);
   } catch (error) {
@@ -47,5 +45,4 @@ async function fetchAverage() {
   }
 }
 
-// Fetch the average and set the slider position when the page loads
 window.onload = fetchAverage;

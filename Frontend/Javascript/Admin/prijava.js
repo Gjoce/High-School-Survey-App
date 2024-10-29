@@ -20,8 +20,8 @@ document
 
       if (response.ok) {
         const data = await response.json();
-        sessionStorage.setItem("jwt", data.token); //shranjevanje admin id v session storage
-        window.location.href = "./Pregled_Seje.html"; //redirect na stran z vse seje
+        sessionStorage.setItem("jwt", data.token);
+        window.location.href = "./Pregled_Seje.html";
       } else {
         errorMessage.textContent =
           "Neveljaven email ali geslo. Prosimo, poskusite ponovno.";

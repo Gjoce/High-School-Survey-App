@@ -11,7 +11,7 @@ async function fetchAnswers() {
   const params = getQueryParams();
   const sejaId = params["sejaId"];
   const container = document.getElementById("answersContainer");
-  container.innerHTML = ""; // Clear previous results
+  container.innerHTML = "";
 
   if (!sejaId) {
     container.innerHTML = "<p>Session ID is missing in the URL.</p>";

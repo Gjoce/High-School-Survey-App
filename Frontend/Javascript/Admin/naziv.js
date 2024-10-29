@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const submitButton = document.getElementById("submit-button");
 
   if (submitButton && !submitButton.hasListener) {
-    submitButton.hasListener = true; // Set a custom flag
+    submitButton.hasListener = true;
     submitButton.addEventListener("click", async function () {
       const naziv = document.getElementById("naziv").value;
       const jsonFileInput = document.getElementById("json-file");
@@ -43,12 +43,9 @@ document.addEventListener("DOMContentLoaded", function () {
           if (response.ok) {
             const result = await response.json();
 
-            // Display success message
             displayMessage(result.message, "success");
 
-            // Check if a new token was provided in the response
             if (result.token) {
-              // Store the new token in session storage
               window.sessionStorage.setItem("jwt", result.token);
             }
           } else {

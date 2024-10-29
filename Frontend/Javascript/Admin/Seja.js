@@ -98,9 +98,8 @@ async function fetchDataAndPopulateTable(sessionId) {
 
         const vprasanjaCell = document.createElement("td");
         vprasanjaCell.textContent = vprasanje.navodilo_naloge;
-        vprasanjaCell.classList.add("clickable"); // Set as clickable for all
+        vprasanjaCell.classList.add("clickable");
 
-        // Adding click events for different question types
         if (vprasanje.tip_vprasanja === "text-area") {
           vprasanjaCell.addEventListener("click", () => {
             window.open(`TextAreaAnswers.html?sejaId=${sessionId}`, "_blank");

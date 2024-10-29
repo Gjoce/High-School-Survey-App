@@ -35,15 +35,14 @@ async function fetchLeaderboard(sessionId) {
 
 function updateLeaderboard(data) {
   const leaderboardBody = document.getElementById("leaderboard-body");
-  leaderboardBody.innerHTML = ""; // Clear existing rows
+  leaderboardBody.innerHTML = "";
 
-  const topTenData = data.slice(0, 10); // Get the top 10 entries
+  const topTenData = data.slice(0, 10);
 
   topTenData.forEach((user, index) => {
     const row = document.createElement("tr");
     let rowClass = "";
 
-    // Apply different classes for the top 3 ranks
     if (index === 0) {
       rowClass = "gold";
     } else if (index === 1) {

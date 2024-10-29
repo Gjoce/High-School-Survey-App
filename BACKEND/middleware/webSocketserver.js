@@ -16,8 +16,6 @@ function initializeWebSocket(server) {
             responseCounts[questionId] = 0;
           }
           responseCounts[questionId]++;
-
-          // Broadcast response count to all connected clients
           wss.clients.forEach(function each(client) {
             if (client.readyState === WebSocket.OPEN) {
               client.send(
@@ -37,7 +35,7 @@ function initializeWebSocket(server) {
           });
         }
       } catch (error) {
-        console.error("Error parsing WebSocket message:", error);
+        console.error("Napaka pri parsanju WebSocketa:", error);
       }
     });
 

@@ -2,17 +2,14 @@ const db = require("../config/database");
 
 const ExcelJS = require("exceljs");
 
-// Fetch and export 'odgovor' table data to Excel
 const exportResponsesToExcel = async (req, res) => {
   const { sessionId } = req.params;
   try {
-    // Fetch data from the database, joining with questions table to get question text
     const odgovorData = await db("odgovor")
       .join("vprasanja", "odgovor.vprasanja_id", "vprasanja.id")
       .where("odgovor.seja_id", sessionId)
-      .select("odgovor.*", "vprasanja.navodilo_naloge"); // Assuming 'navodilo_naloge' is the column for question text
+      .select("odgovor.*", "vprasanja.navodilo_naloge");
 
-    // Transform data to group answers by user and question
     const transformedData = {};
     const questionsSet = new Set();
 
@@ -28,12 +25,10 @@ const exportResponsesToExcel = async (req, res) => {
         };
       }
 
-      // Initialize array for checkbox and highlight answers if not already initialized
       if (!transformedData[row.sifra_dijaka].odgovori[row.vprasanja_id]) {
         transformedData[row.sifra_dijaka].odgovori[row.vprasanja_id] = [];
       }
 
-      // Push the answer to the respective question
       transformedData[row.sifra_dijaka].odgovori[row.vprasanja_id].push(
         row.Kaj_je_odgovor
       );
@@ -41,11 +36,9 @@ const exportResponsesToExcel = async (req, res) => {
       questionsSet.add(row.vprasanja_id);
     });
 
-    // Create a new workbook and worksheet
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Odgovor Data");
 
-    // Define static columns
     const columns = [
       { header: "ID", key: "id", width: 10 },
       { header: "Sifra Dijaka", key: "sifra_dijaka", width: 15 },
@@ -54,9 +47,7 @@ const exportResponsesToExcel = async (req, res) => {
       { header: "Seja ID", key: "seja_id", width: 15 },
     ];
 
-    // Define dynamic columns for each question
     const questionColumns = Array.from(questionsSet).map((questionId) => {
-      // Find the corresponding question object based on questionId in odgovorData
       const question = odgovorData.find((q) => q.vprasanja_id === questionId);
       if (question && question.navodilo_naloge) {
         return {
@@ -73,10 +64,8 @@ const exportResponsesToExcel = async (req, res) => {
       }
     });
 
-    // Set columns to worksheet
     worksheet.columns = columns.concat(questionColumns);
 
-    // Add rows to the worksheet
     Object.values(transformedData).forEach((user) => {
       const row = {
         id: user.id,
@@ -98,7 +87,6 @@ const exportResponsesToExcel = async (req, res) => {
       worksheet.addRow(row);
     });
 
-    // Set response headers for Excel file download
     res.setHeader(
       "Content-Type",
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -108,16 +96,16 @@ const exportResponsesToExcel = async (req, res) => {
       "attachment; filename=odgovor_data.xlsx"
     );
 
-    // Write the workbook to the response
     await workbook.xlsx.write(res);
     res.end();
   } catch (error) {
-    console.error("Error exporting odgovor data to Excel:", error);
-    res.status(500).json({ message: "Error exporting odgovor data to Excel" });
+    console.error("Napaka pri shranjevanju odgovorov v Excel:", error);
+    res
+      .status(500)
+      .json({ message: "Napaka pri shranjevanju odgovorov v Excel" });
   }
 };
 
-// Get leaderboard by session ID
 const getLeaderboard = async (req, res) => {
   const { sessionId } = req.params;
   try {
@@ -126,10 +114,10 @@ const getLeaderboard = async (req, res) => {
       .select("sifra_dijaka", "nickname", "skupneTocke");
 
     if (usersData.length === 0) {
-      console.log(`No data found for session ID: ${sessionId}`);
+      console.log(`Podatki niso bili najdeni za sejo: ${sessionId}`);
       return res
         .status(404)
-        .json({ message: "No data found for this session ID" });
+        .json({ message: "Podatki niso bili najdeni za sejo" });
     }
 
     const leaderboard = {};
@@ -149,51 +137,43 @@ const getLeaderboard = async (req, res) => {
     );
     res.json(sortedLeaderboard);
   } catch (error) {
-    console.error("Error fetching leaderboard data:", error);
-    res.status(500).json({ message: "Error fetching leaderboard data" });
+    console.error("Napaka pri sprejemanju leaderboard podatkov:", error);
+    res
+      .status(500)
+      .json({ message: "Napaka pri sprejemanju leaderboard podatkov" });
   }
 };
 
-// Calculate average slider answer for a specific session and question type
 const calculateAverageSlider = async (req, res) => {
-  const { sessionId, questionType } = req.params; // Extract sessionId and questionType from URL
+  const { sessionId, questionType } = req.params;
 
   try {
-    // Fetch answers for the specific session and question type
     const answers = await db("odgovor")
       .select("Kaj_je_odgovor")
       .where({
-        seja_id: sessionId, // Fetching answers for the specific session
+        seja_id: sessionId,
       })
       .whereIn(
         "vprasanja_id",
         db("vprasanja").select("id").where("tip_vprasanja", questionType)
-      ); // Use extracted question type
-
-    console.log(`Session ID: ${sessionId}, Question Type: ${questionType}`);
-    console.log(`Fetched answers: ${JSON.stringify(answers)}`);
+      );
 
     if (answers.length === 0) {
-      return res
-        .status(404)
-        .json({
-          message: "No answers found for this session and question type",
-        });
+      return res.status(404).json({
+        message: "Ni odgovorov",
+      });
     }
 
-    // Calculate the average, parsing each Kaj_je_odgovor as a float
     const total = answers.reduce(
       (sum, answer) => sum + parseFloat(answer.Kaj_je_odgovor),
       0
     );
-    const average = (total / answers.length).toFixed(1); // Calculate average
+    const average = (total / answers.length).toFixed(1);
 
     res.json({ average });
   } catch (error) {
-    console.error("Error calculating average:", error);
-    res
-      .status(500)
-      .json({ message: "An error occurred while calculating the average" });
+    console.error("Napaka pri izračunu povprečja:", error);
+    res.status(500).json({ message: "Napaka pri izračunu povprečja" });
   }
 };
 
@@ -244,7 +224,7 @@ const shraniOdgovor = async (req, res) => {
           }
         });
 
-        points = correctCount * 0.5; // Each correct checkbox is 0.5 points
+        points = correctCount * 0.5;
       }
     } else if (question.tip_vprasanja === "check-box2") {
       if (Kaj_je_odgovor.length > 0) {
@@ -262,7 +242,7 @@ const shraniOdgovor = async (req, res) => {
           }
         });
 
-        points = correctCount * 1; // Each correct checkbox is 0.5 points
+        points = correctCount * 1;
       }
     } else if (question.tip_vprasanja === "highlight-text") {
       const correctPortions = question.pravilen_odgovor.split(", ");
@@ -289,23 +269,21 @@ const shraniOdgovor = async (req, res) => {
         points = 2;
       }
     }
-    // Retrieve current points for the user
+
     let user = await db("odgovor").where("sifra_dijaka", sifra_dijaka).first();
     if (!user) {
-      // If user does not exist, create the user with initial points
       await db("odgovor").insert({
         sifra_dijaka,
         skupneTocke: points,
-        spol, // Include missing field
-        nickname, // Include missing field
-        Kaj_je_odgovor: "", // Default value for answer
+        spol,
+        nickname,
+        Kaj_je_odgovor: "",
         vprasanja_id,
         Odgovor: points,
-        seja_id: sessionId, // Store sessionID in seja_id
+        seja_id: sessionId,
       });
       user = { skupneTocke: points };
     } else if (isCorrect) {
-      // Update the user's total points
       const newTotalPoints = user.skupneTocke + points;
       await db("odgovor").where("sifra_dijaka", sifra_dijaka).update({
         skupneTocke: newTotalPoints,
@@ -313,7 +291,6 @@ const shraniOdgovor = async (req, res) => {
       user.skupneTocke = newTotalPoints;
     }
 
-    // Insert the answer with cumulative points
     const cumulativePoints = user.skupneTocke;
     if (Array.isArray(Kaj_je_odgovor)) {
       await Promise.all(
@@ -326,7 +303,7 @@ const shraniOdgovor = async (req, res) => {
             vprasanja_id,
             Odgovor: points,
             skupneTocke: cumulativePoints,
-            seja_id: sessionId, // Store sessionID in seja_id
+            seja_id: sessionId,
           });
         })
       );
@@ -339,19 +316,9 @@ const shraniOdgovor = async (req, res) => {
         vprasanja_id,
         Odgovor: points,
         skupneTocke: cumulativePoints,
-        seja_id: sessionId, // Store sessionID in seja_id
+        seja_id: sessionId,
       });
     }
-    console.log(
-      "User answer:",
-      Kaj_je_odgovor,
-      "isCorrect:",
-      isCorrect,
-      "Points:",
-      points,
-      "Total Points:",
-      user.skupneTocke
-    );
 
     res.status(200).json({
       message: "Odgovor je bil uspešno shranjen",
@@ -367,23 +334,19 @@ const shraniOdgovor = async (req, res) => {
 
 const getUserPoints = async (req, res) => {
   try {
-    // Retrieve points for the specified user
     const user = await db("odgovor")
       .where("sifra_dijaka", req.params.sifra_dijaka)
       .first();
 
     if (!user) {
-      // If user is not found, return 404
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: "Uporabnik ni bil najden" });
     }
 
-    // Extract total points
     const totalPoints = user.skupneTocke;
 
-    // Send the total points as JSON response
     res.status(200).json({ points: totalPoints });
   } catch (error) {
-    console.error("Error fetching user points:", error);
+    console.error("Napaka pri sprejemu uporabnikove točke:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

@@ -6,8 +6,7 @@ const getSessionsById = async (req, res) => {
   try {
     const seja = await db("seja").where("id", id).first();
     if (!seja) {
-      console.log("Session not found:", id);
-      return res.status(404).json({ message: "Session not found" });
+      return res.status(404).json({ message: "Seja ni bila najdena" });
     }
 
     const sklopi = await db("sklop").where("seja_id", id);
@@ -29,8 +28,8 @@ const getSessionsById = async (req, res) => {
 
     res.json(response);
   } catch (error) {
-    console.error("Error fetching session:", error);
-    res.status(500).json({ message: "Error fetching session" });
+    console.error("Napaka pri sprejemanju seje:", error);
+    res.status(500).json({ message: "Napaka pri sprejemanju seje" });
   }
 };
 

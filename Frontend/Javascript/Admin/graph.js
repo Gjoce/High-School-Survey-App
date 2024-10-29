@@ -17,7 +17,7 @@ async function drawChart() {
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${token}`, // Include the JWT token
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       }
@@ -33,7 +33,7 @@ async function drawChart() {
     data.addColumn("string", "Odgovor");
 
     function formatLabel(label) {
-      const maxLength = 20; // Adjust the length as needed
+      const maxLength = 20;
       if (label.length > maxLength) {
         const words = label.split(" ");
         let newLabel = "";
@@ -110,13 +110,11 @@ async function drawChart() {
       }
     }
 
-    // Calculate the maximum number of answers
     const maxAnswers = Math.max(
       ...dataFromServer.statistics.map((row) => row.total_answers),
       0
     );
 
-    // Ensure ticks are set from 0 to maxAnswers
     const ticks = Array.from({ length: maxAnswers + 1 }, (_, i) => i);
 
     const options = {

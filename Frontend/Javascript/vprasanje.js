@@ -217,7 +217,7 @@ $(document).ready(function () {
         vprasanja_id: questions[currentQuestionIndex].id,
         nickname: nickname,
         spol: gender,
-        sessionId: sessionId, // Include the sessionID here
+        sessionId: sessionId,
       };
 
       const response = await fetch(
@@ -242,8 +242,8 @@ $(document).ready(function () {
           window.location.href = "pocakaj.html";
         } else {
           sessionStorage.removeItem("currentQuestionIndex");
-          sessionStorage.setItem("lastQuestionAnswered", true); // Flag for last question answered
-          window.location.href = "pocakaj.html"; // Redirect to pocakaj.html
+          sessionStorage.setItem("lastQuestionAnswered", true);
+          window.location.href = "pocakaj.html";
         }
       } else {
         const error = await response.json();
