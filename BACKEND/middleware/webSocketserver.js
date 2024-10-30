@@ -5,6 +5,14 @@ function initializeWebSocket(server) {
   const responseCounts = {};
 
   wss.on("connection", function connection(ws) {
+    console.log("New client connected");
+
+    const keepAliveInterval = setInterval(() => {
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({ action: "ping" }));
+      }
+    }, 30000);
+
     ws.on("message", function incoming(message) {
       try {
         const parsedMessage = JSON.parse(message);
@@ -41,6 +49,7 @@ function initializeWebSocket(server) {
 
     ws.on("close", () => {
       console.log("Client disconnected");
+      clearInterval(keepAliveInterval);
     });
   });
 
