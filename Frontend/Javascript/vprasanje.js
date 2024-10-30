@@ -7,7 +7,9 @@ $(document).ready(function () {
     : 0;
   let questions = [];
 
-  const socket = new WebSocket("ws://localhost:3307");
+  const socket = new WebSocket(
+    "wss://spolna-enakost-a5b1f42434e5.herokuapp.com"
+  );
 
   if (sessionId && sklopId) {
     fetch(
