@@ -1,10 +1,10 @@
 {
   "name": "High_School_Survey_App",
   "version": "1.0.0",
-  "main": "Backend/server.js",
+  "main": "BACKEND/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node Backend/server.js"
+    "start": "node BACKEND/server.js"
   },
   "author": "Georgi Dimov",
   "license": "ISC",
