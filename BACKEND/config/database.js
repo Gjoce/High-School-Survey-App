@@ -2,7 +2,11 @@ const knex = require("knex");
 
 const db = knex({
   client: "mysql2",
-  connection: process.env.JAWS_URL,
+  connection: {
+    connectionString: process.env.JAWS_URL,
+    ssl: { rejectUnauthorized: false },
+  },
+  pool: { min: 0, max: 5 },
 });
 
 db.raw("SELECT 1")
