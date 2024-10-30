@@ -1,10 +1,12 @@
 const knex = require("knex");
 
-const jawsUrl = process.env.JAWS_URL;
-
 const db = knex({
   client: "mysql2",
-  connection: jawsUrl,
+  connection: process.env.JAWS_URL,
+  pool: {
+    min: 0,
+    max: 10,
+  },
 });
 
 module.exports = db;

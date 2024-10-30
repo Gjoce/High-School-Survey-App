@@ -1,5 +1,5 @@
 {
-  "name": "High_School_Survey_App",
+  "name": "Spolna-enakost",
   "version": "1.0.0",
   "main": "BACKEND/server.js",
   "scripts": {
@@ -16,7 +16,6 @@
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
-    "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
     "ws": "^8.17.0"
   }
