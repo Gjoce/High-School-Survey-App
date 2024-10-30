@@ -6,9 +6,7 @@ const registerUser = async (req, res) => {
   const { email, geslo } = req.body;
   try {
     const hashedGeslo = await bcrypt.hash(geslo, 10);
-    const [userId] = await db("admin")
-      .insert({ email, geslo: hashedGeslo })
-      .returning("id");
+    const [userId] = await db("admin").insert({ email, geslo: hashedGeslo });
     res.status(201).json({ id: userId, email });
   } catch (error) {
     console.error("Napaka pri registraciji:", error);
