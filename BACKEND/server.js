@@ -6,6 +6,7 @@ const sessionRoutes = require("./routes/Admin/sessionRoutes");
 const userRoutes = require("./routes/Admin/userRoutes");
 const path = require("path");
 const initializeWebSocket = require("./middleware/webSocketserver");
+const db = require("./config/database");
 
 const app = express();
 const server = http.createServer(app);
@@ -25,6 +26,16 @@ app.use("/api/sessions", sessionRoutes);
 app.use("/api/users", userRoutes);
 
 const PORT = process.env.PORT;
-server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+
+db.raw("SELECT 1")
+  .then(() => {
+    console.log("Database connection successful!");
+
+    server.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Database connection failed:", err);
+    process.exit(1);
+  });
