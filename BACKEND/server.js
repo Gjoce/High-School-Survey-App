@@ -11,8 +11,12 @@ const server = http.createServer(app);
 
 initializeWebSocket(server);
 
-app.use(express.static("../Frontend"));
-app.use("/Slike", express.static("../Frontend/Slike"));
+app.use(express.static(path.join(__dirname, "../Frontend")));
+app.use("/Slike", express.static(path.join(__dirname, "../Frontend/Slike")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../Frontend/index.html"));
+});
 
 app.use(express.json());
 app.use("/api/responses", responseRoutes);
