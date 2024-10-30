@@ -4,7 +4,9 @@ $(document).ready(function () {
   console.log("Session ID:", sessionId);
 
   if (sessionId) {
-    fetch(`http://localhost:3307/api/sessions/user/session/${sessionId}`)
+    fetch(
+      `https://spolna-enakost-a5b1f42434e5.herokuapp.com/api/sessions/user/session/${sessionId}`
+    )
       .then((response) => {
         console.log("Status odziva:", response.status);
         return response.json();

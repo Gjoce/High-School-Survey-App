@@ -21,7 +21,7 @@ async function fetchAnswers() {
   try {
     const token = window.sessionStorage.getItem("jwt");
     const response = await fetch(
-      `http://localhost:3307/api/sessions/answers/${sejaId}`,
+      `https://spolna-enakost-a5b1f42434e5.herokuapp.com/api/sessions/answers/${sejaId}`,
       {
         method: "GET",
         headers: {

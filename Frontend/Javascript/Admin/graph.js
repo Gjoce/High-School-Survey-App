@@ -13,7 +13,7 @@ async function drawChart() {
   try {
     const token = window.sessionStorage.getItem("jwt");
     const response = await fetch(
-      `http://localhost:3307/api/sessions/questions/${questionId}/statistics`,
+      `https://spolna-enakost-a5b1f42434e5.herokuapp.com/api/sessions/questions/${questionId}/statistics`,
       {
         method: "GET",
         headers: {

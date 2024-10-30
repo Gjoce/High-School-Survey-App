@@ -31,14 +31,17 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
         try {
-          const response = await fetch("http://localhost:3307/api/sessions/", {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          });
+          const response = await fetch(
+            "https://spolna-enakost-a5b1f42434e5.herokuapp.com/api/sessions/",
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            }
+          );
 
           if (response.ok) {
             const result = await response.json();

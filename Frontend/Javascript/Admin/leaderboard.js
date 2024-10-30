@@ -14,7 +14,7 @@ async function fetchLeaderboard(sessionId) {
   const token = window.sessionStorage.getItem("jwt");
   try {
     const response = await fetch(
-      `http://localhost:3307/api/responses/leaderboard/${sessionId}`,
+      `https://spolna-enakost-a5b1f42434e5.herokuapp.com/api/responses/leaderboard/${sessionId}`,
       {
         method: "GET",
         headers: {

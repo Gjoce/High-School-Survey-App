@@ -10,13 +10,16 @@ document
     errorMessage.style.display = "none";
 
     try {
-      const response = await fetch("http://localhost:3307/api/users/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: email, geslo: password }),
-      });
+      const response = await fetch(
+        "https://spolna-enakost-a5b1f42434e5.herokuapp.com/api/users/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: email, geslo: password }),
+        }
+      );
 
       if (response.ok) {
         window.location.href = "./Prijava.html";

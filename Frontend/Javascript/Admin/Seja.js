@@ -3,7 +3,9 @@ let socket;
 
 if (token) {
   socket = new WebSocket(
-    `ws://localhost:3307?token=${encodeURIComponent(token)}`
+    `wss://https://spolna-enakost-a5b1f42434e5.herokuapp.com?token=${encodeURIComponent(
+      token
+    )}`
   );
 
   socket.onopen = function () {
@@ -72,7 +74,7 @@ async function fetchDataAndPopulateTable(sessionId) {
   const token = window.sessionStorage.getItem("jwt");
   try {
     const response = await fetch(
-      `http://localhost:3307/api/sessions/specific/${sessionId}`,
+      `https://spolna-enakost-a5b1f42434e5.herokuapp.com/api/sessions/specific/${sessionId}`,
       {
         method: "GET",
         headers: {
@@ -178,7 +180,7 @@ async function downloadExcel() {
   const token = window.sessionStorage.getItem("jwt");
   try {
     const response = await fetch(
-      `http://localhost:3307/api/responses/export/${sessionId}`,
+      `https://spolna-enakost-a5b1f42434e5.herokuapp.com/api/responses/export/${sessionId}`,
       {
         method: "GET",
         headers: {

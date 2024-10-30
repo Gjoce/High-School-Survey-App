@@ -6,13 +6,16 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
-  fetch(`http://localhost:3307/api/sessions/admin`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  })
+  fetch(
+    `https://spolna-enakost-a5b1f42434e5.herokuapp.com/api/sessions/admin`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  )
     .then((response) => {
       if (!response.ok) {
         throw new Error("Failed to fetch sessions: " + response.statusText);
@@ -51,13 +54,16 @@ function deleteSeja(id, button) {
   }
   const token = sessionStorage.getItem("jwt");
 
-  fetch(`http://localhost:3307/api/sessions/${id}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  })
+  fetch(
+    `https://spolna-enakost-a5b1f42434e5.herokuapp.com/api/sessions/${id}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  )
     .then((response) => response.json())
     .then((data) => {
       if (data.message) {

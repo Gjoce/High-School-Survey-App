@@ -1,7 +1,9 @@
 $(document).ready(function () {
   $("#continue-quiz").hide();
 
-  const socket = new WebSocket("ws://localhost:3307");
+  const socket = new WebSocket(
+    "wss://spolna-enakost-a5b1f42434e5.herokuapp.com"
+  );
 
   socket.onmessage = function (event) {
     const messageData = event.data;
@@ -32,7 +34,9 @@ $(document).ready(function () {
   };
 
   function fetchUserPoints(userId) {
-    fetch(`http://localhost:3307/api/responses/points/${userId}`)
+    fetch(
+      `https://spolna-enakost-a5b1f42434e5.herokuapp.com/api/responses/points/${userId}`
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");

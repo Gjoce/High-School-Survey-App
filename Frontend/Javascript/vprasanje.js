@@ -10,7 +10,9 @@ $(document).ready(function () {
   const socket = new WebSocket("ws://localhost:3307");
 
   if (sessionId && sklopId) {
-    fetch(`http://localhost:3307/api/sessions/questions/${sklopId}`)
+    fetch(
+      `https://spolna-enakost-a5b1f42434e5.herokuapp.com/api/sessions/questions/${sklopId}`
+    )
       .then((response) => response.json())
       .then((data) => {
         questions = data;
@@ -221,7 +223,7 @@ $(document).ready(function () {
       };
 
       const response = await fetch(
-        "http://localhost:3307/api/responses/save-response",
+        "https://spolna-enakost-a5b1f42434e5.herokuapp.com/api/responses/save-response",
         {
           method: "POST",
           headers: {

@@ -17,7 +17,7 @@ async function fetchAverage() {
   try {
     const token = window.sessionStorage.getItem("jwt");
     const response = await fetch(
-      `http://localhost:3307/api/responses/average-slider/${sessionId}/${questionType}`,
+      `https://spolna-enakost-a5b1f42434e5.herokuapp.com/api/responses/average-slider/${sessionId}/${questionType}`,
       {
         method: "GET",
         headers: {
