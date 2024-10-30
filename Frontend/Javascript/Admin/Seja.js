@@ -3,7 +3,7 @@ let socket;
 
 if (token) {
   socket = new WebSocket(
-    `wss://https://spolna-enakost-a5b1f42434e5.herokuapp.com?token=${encodeURIComponent(
+    `wss://spolna-enakost-a5b1f42434e5.herokuapp.com?token=${encodeURIComponent(
       token
     )}`
   );
