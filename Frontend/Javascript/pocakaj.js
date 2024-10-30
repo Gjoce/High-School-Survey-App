@@ -64,7 +64,7 @@ $(document).ready(function () {
       sessionStorage.removeItem("lastQuestionAnswered");
       showCongratulations();
     } else {
-      window.location.href = "vprasanja.html";
+      window.location.href = "Vprasanja.html";
     }
   });
 });
