@@ -1,6 +1,5 @@
 $(document).ready(function () {
   const sessionId = sessionStorage.getItem("sessionID");
-
   console.log("Session ID:", sessionId);
 
   if (sessionId) {
@@ -28,6 +27,7 @@ $(document).ready(function () {
 
           const userProgress =
             JSON.parse(sessionStorage.getItem("userProgress")) || {};
+          let unlockedIndex = Object.keys(userProgress).length;
 
           data.sklopi.forEach((sklop, index) => {
             const color = colors[index % colors.length];
@@ -36,20 +36,21 @@ $(document).ready(function () {
             const cardColor = isCompleted ? darkerColor : color;
 
             const card = $(`
-                            <div class="card" style="background-color: ${cardColor};">
-                                <h2>${sklop.naziv}</h2>
-                            </div>
-                        `);
+              <div class="card ${
+                isCompleted ? "completed" : "locked"
+              }" style="background-color: ${cardColor};">
+                  <h2>${sklop.naziv}</h2>
+              </div>
+            `);
 
-            if (!isCompleted) {
+            if (index === unlockedIndex) {
+              card.removeClass("locked").addClass("unlocked");
               card.click(function () {
                 updateUserProgress(sklop.id);
                 sessionStorage.setItem("sklopID", sklop.id);
                 sessionStorage.setItem("currentQuestionIndex", 0);
                 window.location.href = "Vprasanja.html";
               });
-            } else {
-              card.addClass("completed");
             }
 
             cardsContainer.append(card);
