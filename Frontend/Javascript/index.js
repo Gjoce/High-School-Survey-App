@@ -7,6 +7,11 @@ document
     const quizNickname = document.getElementById("quizNickname").value;
     let genderValue = document.getElementById("genderSelect").value;
 
+    if (!/^\d+$/.test(quizCode)) {
+      alert("Prosim, vnesite le številke za kodo kviza.");
+      return;
+    }
+
     if (genderValue === "moški") {
       genderValue = 0;
     } else if (genderValue === "ženski") {
@@ -20,7 +25,15 @@ document
       sessionStorage.setItem("vzdevek", quizNickname);
       sessionStorage.setItem("spol", genderValue);
 
-      window.location.href = "sklop.html";
+      if (
+        sessionStorage.getItem("sifraKviza") === quizCode &&
+        sessionStorage.getItem("vzdevek") === quizNickname &&
+        sessionStorage.getItem("spol") === String(genderValue)
+      ) {
+        window.location.href = "sklop.html";
+      } else {
+        alert("Prišlo je do težave pri shranjevanju podatkov v sejo.");
+      }
     } else {
       alert("Prosim izpolnite vsa vnosna polja.");
     }
