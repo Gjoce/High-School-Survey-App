@@ -27,6 +27,7 @@ $(document).ready(function () {
 
   socket.onclose = function (event) {
     console.log("WebSocket is closed now.");
+    // Optionally implement reconnection logic here
   };
 
   socket.onerror = function (event) {

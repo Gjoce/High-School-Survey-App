@@ -19,11 +19,14 @@ function initializeWebSocket(server) {
         const action = parsedMessage.action;
         const questionId = parsedMessage.questionId;
 
+        // Handling the response count update
         if (action === "responseCountUpdate" && questionId) {
           if (!responseCounts[questionId]) {
             responseCounts[questionId] = 0;
           }
           responseCounts[questionId]++;
+
+          // Notify all clients about the updated response count
           wss.clients.forEach(function each(client) {
             if (client.readyState === WebSocket.OPEN) {
               client.send(
@@ -35,7 +38,20 @@ function initializeWebSocket(server) {
               );
             }
           });
+
+          // Show the continue quiz button for the current question
+          wss.clients.forEach(function each(client) {
+            if (client.readyState === WebSocket.OPEN) {
+              client.send(
+                JSON.stringify({
+                  action: "showNextButton",
+                  questionId: questionId, // Include questionId if needed
+                })
+              );
+            }
+          });
         } else {
+          // Handle other actions
           wss.clients.forEach(function each(client) {
             if (client.readyState === WebSocket.OPEN) {
               client.send(JSON.stringify({ action: action }));
@@ -43,7 +59,7 @@ function initializeWebSocket(server) {
           });
         }
       } catch (error) {
-        console.error("Napaka pri parsanju WebSocketa:", error);
+        console.error("Error parsing WebSocket message:", error);
       }
     });
 
