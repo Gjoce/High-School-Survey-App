@@ -34,7 +34,7 @@ function initializeWebSocket() {
 function handleWebSocketMessage(message) {
   if (message.action === "showNextButton") {
     $("#continue-quiz").show();
-    const continueButton = document.getElementById("continue-btn");
+    const continueButton = document.getElementById("continue-quiz");
     continueButton.disabled = false;
     console.log("Admin has allowed users to proceed.");
   }
