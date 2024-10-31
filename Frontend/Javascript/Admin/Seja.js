@@ -23,15 +23,6 @@ if (token) {
           updateResponseCount(questionId, responseCount);
           localStorage.setItem(`responseCount_${questionId}`, responseCount);
         }
-      } else if (message.action === "showNextButton") {
-        // Logic to display the continue button for the specific question
-        const { questionId } = message;
-        const continueButton = document.getElementById(
-          `continueButton_${questionId}`
-        );
-        if (continueButton) {
-          continueButton.style.display = "block"; // Show the button
-        }
       }
     } catch (error) {
       console.error("Error parsing WebSocket message:", error);
@@ -154,7 +145,12 @@ async function fetchDataAndPopulateTable(sessionId) {
             vprasanje.navodilo_naloge
           );
 
-          socket.send(JSON.stringify({ action: "showNextButton" }));
+          socket.send(
+            JSON.stringify({
+              action: "showNextButton",
+              questionId: vprasanje.id,
+            })
+          );
 
           dovoliButton.classList.remove("btn-primary");
           dovoliButton.classList.add("btn-danger");
