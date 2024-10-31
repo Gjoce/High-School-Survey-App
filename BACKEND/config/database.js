@@ -9,7 +9,7 @@ const db = knex({
     database: process.env.DB_DATABASE,
     ssl: { rejectUnauthorized: false },
   },
-  pool: { min: 0, max: 35 },
+  pool: { min: 0, max: 50 },
 });
 
 module.exports = db;
