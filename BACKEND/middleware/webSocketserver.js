@@ -38,14 +38,16 @@ function initializeWebSocket(server) {
               );
             }
           });
+        }
 
-          // Show the continue quiz button for the current question
+        // Show the continue quiz button for the current question when the admin clicks "Dovoli"
+        if (action === "showNextButton" && questionId) {
           wss.clients.forEach(function each(client) {
             if (client.readyState === WebSocket.OPEN) {
               client.send(
                 JSON.stringify({
                   action: "showNextButton",
-                  questionId: questionId, // Include questionId if needed
+                  questionId: questionId, // Include questionId for targeted action
                 })
               );
             }
