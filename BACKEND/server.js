@@ -4,7 +4,6 @@ const http = require("http");
 const responseRoutes = require("./routes/responseRoutes");
 const sessionRoutes = require("./routes/Admin/sessionRoutes");
 const userRoutes = require("./routes/Admin/userRoutes");
-const quizRoutes = require("./routes/quizRoutes"); // Import the new quiz routes
 const path = require("path");
 const initializeWebSocket = require("./middleware/webSocketserver");
 const db = require("./config/database");
@@ -25,7 +24,6 @@ app.use(express.json());
 app.use("/api/responses", responseRoutes);
 app.use("/api/sessions", sessionRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/quiz", quizRoutes); // Use the new quiz routes
 
 const PORT = process.env.PORT;
 

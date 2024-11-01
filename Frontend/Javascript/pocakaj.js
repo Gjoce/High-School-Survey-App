@@ -15,7 +15,7 @@ $(document).ready(function () {
 
     if (questionId) {
       $.ajax({
-        url: `https://spolna-enakost-a5b1f42434e5.herokuapp.com/api/quiz/allowed/${questionId}`, // Update this endpoint as needed
+        url: `https://spolna-enakost-a5b1f42434e5.herokuapp.com/api/responses/allowed/${questionId}`, // Update this endpoint as needed
         method: "GET",
         success: function (data) {
           if (data.allowed) {
