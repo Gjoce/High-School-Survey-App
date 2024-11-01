@@ -1,46 +1,4 @@
 const token = window.sessionStorage.getItem("jwt");
-let socket;
-
-if (token) {
-  socket = new WebSocket(
-    `wss://spolna-enakost-a5b1f42434e5.herokuapp.com?token=${encodeURIComponent(
-      token
-    )}`
-  );
-
-  socket.onopen = function () {
-    console.log("Secure WebSocket is open now.");
-  };
-
-  socket.onmessage = function (event) {
-    try {
-      const message = JSON.parse(event.data);
-      console.log("Parsed message:", message);
-
-      if (message.action === "responseCountUpdate") {
-        const { questionId, responseCount } = message;
-        if (responseCount && questionId) {
-          updateResponseCount(questionId, responseCount);
-          localStorage.setItem(`responseCount_${questionId}`, responseCount);
-        }
-      }
-    } catch (error) {
-      console.error("Error parsing WebSocket message:", error);
-    }
-  };
-
-  socket.onclose = function () {
-    console.log("WebSocket is closed now.");
-  };
-
-  socket.onerror = function (error) {
-    console.error("WebSocket error:", error);
-  };
-} else {
-  console.error(
-    "User not authenticated; WebSocket connection not established."
-  );
-}
 
 function updateResponseCount(questionId, responseCount) {
   const numOfResponsesCell = document.getElementById(
@@ -102,6 +60,7 @@ async function fetchDataAndPopulateTable(sessionId) {
         vprasanjaCell.textContent = vprasanje.navodilo_naloge;
         vprasanjaCell.classList.add("clickable");
 
+        // Event listeners for different question types
         if (vprasanje.tip_vprasanja === "text-area") {
           vprasanjaCell.addEventListener("click", () => {
             window.open(`TextAreaAnswers.html?sejaId=${sessionId}`, "_blank");
@@ -139,17 +98,26 @@ async function fetchDataAndPopulateTable(sessionId) {
         const dovoliButton = document.createElement("button");
         dovoliButton.textContent = "Dovoli";
         dovoliButton.classList.add("btn", "btn-primary");
-        dovoliButton.addEventListener("click", () => {
+        dovoliButton.addEventListener("click", async () => {
           console.log(
             "Dovoli button clicked for Vprasanja:",
             vprasanje.navodilo_naloge
           );
 
-          socket.send(
-            JSON.stringify({
-              action: "showNextButton",
-              questionId: vprasanje.id,
-            })
+          // Notify the server to allow continuation
+          await fetch(
+            "https://spolna-enakost-a5b1f42434e5.herokuapp.com/api/responses/allow-continuation",
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                questionId: vprasanje.id,
+                allowed: true,
+              }),
+            }
           );
 
           dovoliButton.classList.remove("btn-primary");
@@ -159,6 +127,9 @@ async function fetchDataAndPopulateTable(sessionId) {
         tr.appendChild(dovoliCell);
 
         tbody.appendChild(tr);
+
+        // Start polling for this question's allowed state
+        startPollingForContinuation(vprasanje.id);
       });
     });
 
@@ -167,6 +138,40 @@ async function fetchDataAndPopulateTable(sessionId) {
   } catch (error) {
     console.error("Napaka pri prevzemu podatkov:", error);
   }
+}
+
+async function checkIfAllowed(questionId) {
+  const token = window.sessionStorage.getItem("jwt");
+  try {
+    const response = await fetch(
+      `https://spolna-enakost-a5b1f42434e5.herokuapp.com/api/responses/allowed/${questionId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) throw new Error("Network response failed");
+
+    const data = await response.json();
+    if (data.allowed) {
+      // Display the continue quiz button or whatever action you want
+      const continueButton = document.getElementById("continue-quiz");
+      continueButton.style.display = "block"; // Show continue button
+      console.log(`Question ${questionId} is allowed to continue.`);
+    }
+  } catch (error) {
+    console.error("Error checking allowed state:", error);
+  }
+}
+
+function startPollingForContinuation(questionId) {
+  setInterval(() => {
+    checkIfAllowed(questionId);
+  }, 5000); // Poll every 5 seconds
 }
 
 const urlParams = new URLSearchParams(window.location.search);
