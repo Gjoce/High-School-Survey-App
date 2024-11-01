@@ -9,7 +9,9 @@ function fetchUserPoints(userId) {
       return response.json();
     })
     .then((data) => {
-      document.getElementById("points").textContent = data.points;
+      document.getElementById(
+        "points"
+      ).textContent = `Uspelo ti je zbrati: ${data.points} točke`;
     })
     .catch((error) => console.error("Error fetching points:", error));
 }
